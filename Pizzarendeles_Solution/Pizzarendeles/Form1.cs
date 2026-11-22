@@ -40,6 +40,7 @@ namespace Pizzarendeles
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            DataGridViewBeallit();
             LoadPizzak();
             UgyfelBetolt();
             alapUgyfel();
@@ -125,7 +126,8 @@ namespace Pizzarendeles
                 Darab = r.Darab,
                 Datum = r.Datum,
                 TeljesAr = r.Darab * r.Pizza.Ar,
-            });
+            }).ToList();
+            dgvRendelesek.DataSource = rendelesLlista;
 
         }
         //Ez nem volt benne a feladatok között, de hülyén nézett ki csak úgy üresen
@@ -185,7 +187,7 @@ namespace Pizzarendeles
                 nudDarab.Focus();
                 return;
             }
-            if (dtRendelesDatum.Value < DateTime.Now)
+            if (dtRendelesDatum.Value < DateTime.Today)
             {
                 MessageBox.Show("Haver nem vagyunk időutazók :P\nAzt ajánlom adj időt a legyártáshoz és a kiszállításhoz ");
                 dtRendelesDatum.Focus();
@@ -233,6 +235,14 @@ namespace Pizzarendeles
                 TeljesAr = ru.r.Darab * p.Ar
             }).ToList();
             dgvRendelesek.DataSource = lista;
+        }
+        private void DataGridViewBeallit()
+        {
+            dgvRendelesek.ReadOnly = true;
+            dgvRendelesek.AllowUserToAddRows = false;
+            dgvRendelesek.AllowUserToDeleteRows = false;
+            dgvRendelesek.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvRendelesek.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
     }
 }
